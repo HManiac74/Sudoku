@@ -79,11 +79,6 @@ namespace Sudoku
             public int y;
             public int num;
 
-            public SolutionStep()
-            {
-                x = 0; y = 0; num = 0;
-            }
-
             public SolutionStep(int x, int y, int num)
             {
                 this.x = x;
@@ -875,30 +870,6 @@ namespace Sudoku
                     if (s[i, j] == 0) return false;
                 }
             return true;
-        }
-
-        private List<int> GenerateRandomList()
-        {
-            Random R = new Random();
-
-            List<int> L1 = new List<int>();
-
-            List<int> L2 = new List<int>();
-
-            for (int i = 1; i < 10; i++) L1.Add(i);
-
-            while (L1.Count > 0)
-            {
-                int index = R.Next(L1.Count);
-
-                L2.Add(L1[index]);
-
-                L1.RemoveAt(index);
-            }
-
-            return L2;
-
-
         }
 
         private bool CheckOneToNine(List<int> L)

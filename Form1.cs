@@ -8,7 +8,7 @@ namespace Sudoku
     {
         Sudoku S;
 
-       private Communicator C;
+        private Communicator C;
 
         public Form1()
         {
@@ -18,9 +18,9 @@ namespace Sudoku
 
             Application.DoEvents();
 
-            //S.GenerateGame();
+            S.GenerateGame();
 
-           S.RequestRepaint += new Sudoku.SudokuEvent2(S_RequestRepaint);
+            S.RequestRepaint += new Sudoku.SudokuEvent2(S_RequestRepaint);
 
             C = new Communicator();
 
@@ -37,7 +37,7 @@ namespace Sudoku
         {
             pictureBox1.Invalidate();
         }
-       
+
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             S.Draw(e.Graphics, 0);
@@ -81,8 +81,8 @@ namespace Sudoku
 
         private void newToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            S.RenderMessage("Sudoku 1.0", "Die Zahlen macht Michael", false);
-            //S.GenerateGame();
+            //S.RenderMessage("Sudoku 1.0", "Die Zahlen macht Michael", false);
+            S.GenerateGame();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -91,7 +91,7 @@ namespace Sudoku
 
         }
 
-       
+
         private void solveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (S.checkSolvable(Sudoku.SolveMethods.All) == false)
