@@ -595,8 +595,6 @@ namespace Sudoku
                                 }
                             }
 
-                            //G.DrawString(hints, Fsmall, SmallFontColor, y);
-
                         }
                     }
 
@@ -640,59 +638,6 @@ namespace Sudoku
 
             G.DrawString(txt2, F2, Brushes.White, txt2pos);
 
-        }
-
-        public bool CheckGame()
-        {
-
-            List<int> L = new List<int>();
-
-            for (int i = 0; i < 9; i++)
-            {
-
-                // Checking rows:
-
-                L.Clear();
-
-                for (int j = 0; j < 9; j++) L.Add(s[i, j]);
-
-                if (CheckOneToNine(L) == false) return false;
-
-                // Checking rolumns:
-
-                L.Clear();
-
-                for (int j = 0; j < 9; j++) L.Add(s[j, i]);
-
-                if (CheckOneToNine(L) == false) return false;
-
-                // Checking blocks:
-
-                for (int x = 0; x < 9; x += 3)
-                {
-                    for (int y = 0; y < 9; y += 3)
-                    {
-                        L.Clear();
-
-                        for (int j = 0; j < 3; j++)
-                        {
-                            for (int k = 0; k < 3; k++)
-                            {
-                                L.Add(s[x + j, y + k]);
-
-                            }
-                        }
-
-                        if (CheckOneToNine(L) == false) return false;
-
-                    }
-
-
-                }
-
-            }
-
-            return true;
         }
 
         public bool checkSolvable(SolveMethods M)
