@@ -815,26 +815,6 @@ namespace Sudoku
             return true;
         }
 
-        private bool CheckOneToNine(List<int> L)
-        {
-            if (L.Count != 9) MessageBox.Show("Problem here!");
-
-            int[] vals = new int[10];
-
-            for (int i = 0; i < 9; i++)
-            {
-                int item = L[i];
-
-                if (item > 0)
-                {
-                    vals[item]++;
-
-                    if (vals[L[i]] > 1) return false;
-                }
-            }
-            return true;
-        }
-
         private void EnumeratePossibilities()
         {
             for (int i = 0; i < 9; i++)
