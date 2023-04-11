@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
-using System.IO;
-using System.Media;
 
 namespace Sudoku
 {
@@ -104,22 +101,8 @@ namespace Sudoku
                 L = new List<SolutionStep>();
             }
 
-            private bool Search(SolutionStep ss)
-            {
-                for (int i = 0; i < L.Count; i++)
-                {
-                    SolutionStep present = L[i];
-
-                    if (ss.x == present.x && ss.y == present.y && ss.num == present.num) return true;
-                }
-
-                return false;
-            }
-
             public void Add(SolutionStep ss)
             {
-                // if (!Search(ss)) L.Add(ss);
-
                 L.Add(ss);
             }
 
@@ -229,8 +212,6 @@ namespace Sudoku
 
             EnumeratePossibilities();
 
-            // ComputeErrors();
-
             if (PlaySound != null) PlaySound(SudokuSound.Square);
 
             if (isSolved())
@@ -260,8 +241,6 @@ namespace Sudoku
                 if (d.Seconds > 1) duration += "s";
 
             }
-
-
 
         }
 
@@ -367,8 +346,6 @@ namespace Sudoku
                     if (s[i, j] == 0) f[i, j] = 0; else f[i, j] = 1;
                 }
 
-            //  SetGameString("XX7XXX5XXXXXX4XX3XXXX832X9X8XXXXX4XXX294X586XXX6XXXXX7X5X364XXXX7XX5XXXXXX3XXX2XX");
-
             EnumeratePossibilities();
 
             starttime = DateTime.Now;
@@ -395,7 +372,6 @@ namespace Sudoku
 
         public void ScrambleGame()
         {
-            //0 1, 1 2, 3 4, 4 5, 6 7 7 8
 
             int[] scramble_array = { 0, 1, 3, 4, 6, 7 };
 
@@ -425,24 +401,7 @@ namespace Sudoku
 
         }
 
-        public string GetGameString()
-        {
-            string result = "";
-
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-                    result += s[i, j].ToString();
-
-                }
-            }
-
-            result = result.Replace("0", "X");
-
-            return result;
-        }
-
+       
         public bool SetGameString(string game)
         {
             if (game.Length != 81) return false;
@@ -652,17 +611,10 @@ namespace Sudoku
 
             }
 
-            //if (solved == 1) ;
-
             if (DisplayMessage)
             {
                 RenderMessageBox(G, msg_text1, msg_text2, realw / 22, realw / 36, w, h, realx, realy, realw);
             }
-
-            //RenderMessageBox(G, "14 Possible Deductions", "Press any key to continue", realw / 22, realw / 36, w, h, realx, realy, realw);
-
-            //RenderMessageBox(G, "Everything's cool dude!", "Press any key to continue", realw / 22, realw / 36, w, h, realx, realy, realw);
-
         }
 
         private void RenderMessageBox(Graphics G, string txt1, string txt2, float emSize1, float emSize2, float w, float h, float realx, float realy, float realw)
@@ -872,32 +824,6 @@ namespace Sudoku
             while (SolveStep(M)) ;
 
             return (isFull());
-
-        }
-
-        public bool LoadFile(string file)
-        {
-            StreamReader R = new StreamReader(file);
-
-            string content = R.ReadLine();
-
-            R.Close();
-
-            if (content.Length != 81) return false;
-
-            return SetGameString(content);
-        }
-
-        public bool SaveFile(string file)
-        {
-
-            StreamWriter W = new StreamWriter(file);
-
-            W.WriteLine(GetGameString());
-
-            W.Close();
-
-            return true;
 
         }
 

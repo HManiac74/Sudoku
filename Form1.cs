@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using System.Media;
 
 
 namespace Sudoku
@@ -14,15 +8,7 @@ namespace Sudoku
     {
         Sudoku S;
 
-        private SoundPlayer SquarePlace;
-
-        private SoundPlayer PuzzleSolved;
-
-        private SoundPlayer PuzzleFine;
-
-        private SoundPlayer MoveNo;
-
-        private Communicator C;
+       private Communicator C;
 
         public Form1()
         {
@@ -32,13 +18,9 @@ namespace Sudoku
 
             Application.DoEvents();
 
-            S.GenerateGame();
+            //S.GenerateGame();
 
-            LoadSounds();
-
-            S.PlaySound += new Sudoku.SudokuEvent(S_PlaySound);
-
-            S.RequestRepaint += new Sudoku.SudokuEvent2(S_RequestRepaint);
+           S.RequestRepaint += new Sudoku.SudokuEvent2(S_RequestRepaint);
 
             C = new Communicator();
 
@@ -55,56 +37,7 @@ namespace Sudoku
         {
             pictureBox1.Invalidate();
         }
-
-        private void LoadSounds()
-        {
-
-            SquarePlace = new SoundPlayer("square.wav");
-
-            PuzzleSolved = new SoundPlayer("warm-interlude.wav");
-
-            PuzzleFine = new SoundPlayer("fine.wav");
-
-            MoveNo = new SoundPlayer("no.wav");
-
-            Application.DoEvents();
-            /*
-            SquarePlace.Load();
-
-            PuzzleSolved.Load();
-
-            PuzzleFine.Load();
-
-            MoveNo.Load();
-             * */
-        }
-
-        void S_PlaySound(Sudoku.SudokuSound S)
-        {
-            /*
-            switch (S)
-            {
-                case Sudoku.SudokuSound.Square:
-                   // SquarePlace.Play();
-                    break;
-                case Sudoku.SudokuSound.Solved:
-                    PuzzleSolved.Play();
-                    break;
-                case Sudoku.SudokuSound.No:
-                    MoveNo.Play();
-                    break;
-                case Sudoku.SudokuSound.Fine:
-                    PuzzleFine.Play();
-                    break;
-                case Sudoku.SudokuSound.Stop :
-                    PuzzleSolved.Stop();
-                    break;
-            }
-             */
-
-
-        }
-
+       
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             S.Draw(e.Graphics, 0);
@@ -148,32 +81,17 @@ namespace Sudoku
 
         private void newToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            S.GenerateGame();
+            S.RenderMessage("Sudoku 1.0", "Die Zahlen macht Michael", false);
+            //S.GenerateGame();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            S.RenderMessage("Sudoku 1.0", "Ghaith Tarawneh (gtarawneh@hotmail.com)", false);
+            S.RenderMessage("Sudoku 1.0", "Michelle Fevre (fevrem81@hotmail.com)", false);
 
         }
 
-        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Clipboard.SetText(S.GetGameString());
-        }
-
-        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            bool result = S.SetGameString(Clipboard.GetText());
-
-            if (!result)
-            {
-                Application.DoEvents();
-
-                MessageBox.Show("The clipboard does not contain a valid puzzle.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
+       
         private void solveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (S.checkSolvable(Sudoku.SolveMethods.All) == false)
@@ -211,7 +129,6 @@ namespace Sudoku
 
                 Application.DoEvents();
 
-                //   PuzzleFine.Play();
             }
             else
             {
@@ -224,37 +141,6 @@ namespace Sudoku
 
         }
 
-        private void openToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            openFileDialog1.FileName = "";
-
-            DialogResult R = openFileDialog1.ShowDialog();
-
-            if (R != DialogResult.OK) return;
-
-            bool result = S.LoadFile(openFileDialog1.FileName);
-
-            if (!result)
-            {
-                Application.DoEvents();
-
-                MessageBox.Show("Error loading puzzle file!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-            }
-
-        }
-
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
-
-        }
-
-        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-
-        }
-
         private void checkSolutionsCountToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (S.isSolved()) return;
@@ -262,23 +148,6 @@ namespace Sudoku
             Sudoku.SolutionStepList L = S.ComputePossibleSteps(Sudoku.SolveMethods.All);
 
             S.RenderMessage(L.Count().ToString() + " possible deductions!", "Press any key to continue", false);
-        }
-
-        private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            DialogResult R = saveFileDialog1.ShowDialog();
-
-            if (R != DialogResult.OK) return;
-
-            bool result = S.SaveFile(saveFileDialog1.FileName);
-
-            if (!result)
-            {
-                Application.DoEvents();
-
-                MessageBox.Show("Error saving puzzle file!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-            }
         }
 
         private void Form1_Leave(object sender, EventArgs e)
@@ -314,12 +183,6 @@ namespace Sudoku
 
             pictureBox1.Invalidate();
         }
-
-   
-
-
-
-
 
     }
 }
